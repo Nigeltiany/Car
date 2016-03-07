@@ -9,6 +9,9 @@
 
 #include "Engine.h"
 #include "Servoi2c.h"
+#include "Global.h"
+
+Adafruit_PWMServoDriver pwm;
 
 Car::Car(){
 }

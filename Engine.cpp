@@ -7,6 +7,7 @@
 
 #include "Car.h"
 #include "Engine.h"
+#include "Global.h"
 
 Engine::Engine(){
   setMinSpeed(900);
@@ -105,8 +106,10 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
             Serial.println(getPace());
             changeGear();
         }while(pace<getMaxSpeed());
-        Serial.println(getGear());
-        //break; //woun't break out of the loop so that gears can change
+        
+        if(getTransmission() != 'a'){
+          break; // else woun't break out of the loop so that gears can change in auto
+        }
     case '2':
         setMaxSpeed(gear2);
         setGear('2');
@@ -117,8 +120,9 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
             Serial.println(getPace());
         }while(pace<getMaxSpeed());
         changeGear();
-        Serial.println(getGear());
-        //break; //woun't break out of the loop so that gears can change
+        if(getTransmission() != 'a'){
+          break; // else woun't break out of the loop so that gears can change in auto
+        }
     case '3':
         setMaxSpeed(gear3);
         setGear('3');
@@ -129,8 +133,9 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
             Serial.println(getPace());
         }while(pace<getMaxSpeed());
         changeGear();
-        Serial.println(getGear());
-        //break; //woun't break out of the loop so that gears can change
+        if(getTransmission() != 'a'){
+          break; // else woun't break out of the loop so that gears can change in auto
+        }
     case '4':
         setMaxSpeed(gear4);
         setGear('4');
@@ -141,8 +146,9 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
             Serial.println(getPace());
         }while(pace<getMaxSpeed());
         changeGear();
-        Serial.println(getGear());
-        //break; //woun't break out of the loop so that gears can change
+        if(getTransmission() != 'a'){
+          break; // else woun't break out of the loop so that gears can change in auto
+        }
     case '5':
         setMaxSpeed(gear5);
         setGear('5');
@@ -153,8 +159,7 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
             Serial.println(getPace());
         }while(pace<getMaxSpeed());
         changeGear();
-        Serial.println(getGear());
-        
+
     ////////////////////////////////////////////////////////////////////////////////
         break;
     ////////////////////////////////////////////////////////////////////////////////
@@ -221,6 +226,7 @@ void Engine::changeGear(){
     ///////////////////////////////////////////////////////////////////////////////////////
     
     case 'm':
+      //setGear('n');
       switch(getGear()){
         // For any of these gears...
         case '1':
@@ -239,25 +245,25 @@ void Engine::changeGear(){
             if(getPace() <= gear1 && getPace() > getStopSpeed()){
               setGear('1'); // set gear to next level;
               // then throttle at this gear
-              //throttle(pwm);
+              throttle(pwm);
             }else if(getPace() <= gear2 && getPace() > gear1){
               setGear('2');
               // then throttle at this gear
-              //throttle();
+              throttle(pwm);
             }
             else if(getPace() <= gear3 && getPace() > gear2){
               setGear('3');
               // then throttle at this gear
-              //throttle();
+              throttle(pwm);
             }
             else if(getPace() <= gear4 && getPace() > gear3){
               setGear('4');
               // then throttle at this gear
-              //throttle();
+              throttle(pwm);
             }else{
               setGear('5');
               // then throttle at this gear
-              //throttle();
+              throttle(pwm);
             }
 
             //////////////////////////////////////////////////////////

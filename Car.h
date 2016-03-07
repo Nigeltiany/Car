@@ -75,7 +75,7 @@ class Car{
             
     void accelerate();
     void deccelerate();
-    Adafruit_PWMServoDriver pwm;
+    //Adafruit_PWMServoDriver pwm;
 
                     /////////////////////////////////////
 
