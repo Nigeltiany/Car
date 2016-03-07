@@ -161,7 +161,7 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
         changeGear();
 
     ////////////////////////////////////////////////////////////////////////////////
-        break;
+      break;
     ////////////////////////////////////////////////////////////////////////////////
     
       case 'p':
@@ -226,7 +226,7 @@ void Engine::changeGear(){
     ///////////////////////////////////////////////////////////////////////////////////////
     
     case 'm':
-      //setGear('n');
+      setGear('n');
       switch(getGear()){
         // For any of these gears...
         case '1':
@@ -234,33 +234,33 @@ void Engine::changeGear(){
         case '3':
         case '4':
         case '5':
-          if (getGear() != checkGear()){ // meaning possibly the user switched gears but...
+            Serial.print("getGear() ");
+            Serial.println(getGear());
+            Serial.print("checkGear() ");
+            Serial.println(checkGear());
+          //if (getGear() != checkGear()){ // meaning possibly the user switched gears but...
             // its is not the gear the transmission is in right now
             // Now all the logic for automatic gear shifting with a tiny twist
-
+            
             //////////////////////////////////////////////////////////
             /////////////////       UP SHIFTING     //////////////////
             //////////////////////////////////////////////////////////
             
             if(getPace() <= gear1 && getPace() > getStopSpeed()){
-              setGear('1'); // set gear to next level;
+              setGear('2'); // set gear to next level;
               // then throttle at this gear
               throttle(pwm);
             }else if(getPace() <= gear2 && getPace() > gear1){
-              setGear('2');
-              // then throttle at this gear
-              throttle(pwm);
-            }
-            else if(getPace() <= gear3 && getPace() > gear2){
               setGear('3');
               // then throttle at this gear
               throttle(pwm);
             }
-            else if(getPace() <= gear4 && getPace() > gear3){
+            else if(getPace() <= gear3 && getPace() > gear2){
               setGear('4');
               // then throttle at this gear
               throttle(pwm);
-            }else{
+            }
+            else if(getPace() <= gear4 && getPace() > gear3){
               setGear('5');
               // then throttle at this gear
               throttle(pwm);
@@ -272,7 +272,7 @@ void Engine::changeGear(){
 
             
             
-          }
+          //}
         break;
       }// End MANUAL TRANSMISSION
     break;
