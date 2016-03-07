@@ -1,3 +1,4 @@
+
 #include "Car.h"
 
 #if ARDUINO >= 100
@@ -8,7 +9,6 @@
 
 #include "Engine.h"
 #include "Servoi2c.h"
-#include "Global.h"
 
 Car::Car(){
 }
@@ -215,6 +215,7 @@ void Car::deccelerate(){
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 void Car::setGear(char v){
+  _engine.setGear(v);
   gear = v;
 }
 

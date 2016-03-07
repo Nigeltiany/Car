@@ -62,8 +62,8 @@ void loop() {
       case 'a':
         car.setTransmission('a');
         break;
-      case 's':
-        car.setTransmission('a');
+      case 'v':
+        car.setTransmission('s');
         break;
       case 'm':
         car.setTransmission('a');

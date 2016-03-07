@@ -8,8 +8,6 @@
 #include "Car.h"
 #include "Engine.h"
 
-extern Adafruit_PWMServoDriver p;
-
 Engine::Engine(){
   setMinSpeed(900);
   setMaxSpeed(4096);
@@ -81,8 +79,8 @@ char Engine::getGear(){
 void Engine::halt(Adafruit_PWMServoDriver pwm){
   pwm.setPin(getPinL(),getStopSpeed());
   pwm.setPin(getPinR(),getStopSpeed());
-  setPace(getStopSpeed());
-  setGear('p');
+  setPace(getMinSpeed());
+  Serial.print("Stopped ");
   Serial.println(getPace());
 }
 
@@ -99,6 +97,7 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
   switch(getGear()){
     case '1':
         setMaxSpeed(gear1);
+        setGear('1');
         do{
             pwm.setPin(getPinL(),pace);
             pwm.setPin(getPinR(),pace);
@@ -110,6 +109,7 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
         //break; //woun't break out of the loop so that gears can change
     case '2':
         setMaxSpeed(gear2);
+        setGear('2');
         do{
             pwm.setPin(getPinL(),pace);
             pwm.setPin(getPinR(),pace);
@@ -121,6 +121,7 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
         //break; //woun't break out of the loop so that gears can change
     case '3':
         setMaxSpeed(gear3);
+        setGear('3');
         do{
             pwm.setPin(getPinL(),pace);
             pwm.setPin(getPinR(),pace);
@@ -132,6 +133,7 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
         //break; //woun't break out of the loop so that gears can change
     case '4':
         setMaxSpeed(gear4);
+        setGear('4');
         do{
             pwm.setPin(getPinL(),pace);
             pwm.setPin(getPinR(),pace);
@@ -143,6 +145,7 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
         //break; //woun't break out of the loop so that gears can change
     case '5':
         setMaxSpeed(gear5);
+        setGear('5');
         do{
             pwm.setPin(getPinL(),pace);
             pwm.setPin(getPinR(),pace);
@@ -236,7 +239,7 @@ void Engine::changeGear(){
             if(getPace() <= gear1 && getPace() > getStopSpeed()){
               setGear('1'); // set gear to next level;
               // then throttle at this gear
-              //throttle(p);
+              //throttle(pwm);
             }else if(getPace() <= gear2 && getPace() > gear1){
               setGear('2');
               // then throttle at this gear
@@ -265,7 +268,7 @@ void Engine::changeGear(){
             
           }
         break;
-      }
+      }// End MANUAL TRANSMISSION
     break;
   }
 }

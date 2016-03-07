@@ -12,6 +12,7 @@
  #include "WProgram.h"
 #endif
 
+#include <Adafruit_PWMServoDriver.h>
 #include "Engine.h"
 #include "Servoi2c.h"
 
@@ -74,7 +75,7 @@ class Car{
             
     void accelerate();
     void deccelerate();
-    //Adafruit_PWMServoDriver pwm;
+    Adafruit_PWMServoDriver pwm;
 
                     /////////////////////////////////////
 
