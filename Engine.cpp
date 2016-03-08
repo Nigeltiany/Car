@@ -98,14 +98,13 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
   switch(getGear()){
     case '1':
         setMaxSpeed(gear1);
-        setGear('1');
         do{
             pwm.setPin(getPinL(),pace);
             pwm.setPin(getPinR(),pace);
             setPace(pace+1);
             Serial.println(getPace());
             //Serial.println(getGear());
-            //Serial.println(checkGear());
+            Serial.println(checkGear());
             changeGear();
         }while(pace<getMaxSpeed());
         
@@ -114,14 +113,13 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
         }
     case '2':
         setMaxSpeed(gear2);
-        setGear('2');
         do{
             pwm.setPin(getPinL(),pace);
             pwm.setPin(getPinR(),pace);
             setPace(pace+1);
             Serial.println(getPace());
             //Serial.println(getGear());
-            //Serial.println(checkGear());
+            Serial.println(checkGear());
         }while(pace<getMaxSpeed());
         changeGear();
         if(getTransmission() != 'a'){
@@ -129,14 +127,13 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
         }
     case '3':
         setMaxSpeed(gear3);
-        setGear('3');
         do{
             pwm.setPin(getPinL(),pace);
             pwm.setPin(getPinR(),pace);
             setPace(pace+1);
             Serial.println(getPace());
             //Serial.println(getGear());
-            //Serial.println(checkGear());
+            Serial.println(checkGear());
         }while(pace<getMaxSpeed());
         changeGear();
         if(getTransmission() != 'a'){
@@ -144,14 +141,13 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
         }
     case '4':
         setMaxSpeed(gear4);
-        setGear('4');
         do{
             pwm.setPin(getPinL(),pace);
             pwm.setPin(getPinR(),pace);
             setPace(pace+1);
             Serial.println(getPace());
             //Serial.println(getGear());
-            //Serial.println(checkGear());
+            Serial.println(checkGear());
         }while(pace<getMaxSpeed());
         changeGear();
         if(getTransmission() != 'a'){
@@ -159,14 +155,13 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
         }
     case '5':
         setMaxSpeed(gear5);
-        setGear('5');
         do{
             pwm.setPin(getPinL(),pace);
             pwm.setPin(getPinR(),pace);
             setPace(pace+1);
             Serial.println(getPace());
             //Serial.println(getGear());
-            //Serial.println(checkGear());
+            Serial.println(checkGear());
         }while(pace<getMaxSpeed());
         changeGear();
 
@@ -215,17 +210,38 @@ char Engine::checkGear(){
 void Engine::changeGear(){
   switch(getTransmission()){
     case 'a':
-        if(getMaxSpeed() == gear1){
-          setPace(gear1+1); // add more pace so that gear changes and a new maxspeed is set
-        }else if(getMaxSpeed() == gear2){
-          setPace(gear2+1);
-        }
-        else if(getMaxSpeed() == gear3){
-          setPace(gear3+1);
-        }
-        else if(getMaxSpeed() == gear4){
-          setPace(gear4+1); // head over to gear five, the last gear
-        }
+        switch(getGear()){
+        // For any of these gears...
+        case '1':
+            if(getPace() == gear1 && getPace() < gear2){
+              setGear('2');
+              //Serial.println("changing to 2");
+            }
+            break;
+        case '2':
+            if(getPace() == gear2 && getPace() < gear3){
+              setGear('3');
+              //Serial.println("changing to 3");
+            }
+            break;
+        case '3':
+            if(getPace() <= gear3 && getPace() > gear2){
+              setGear('4');
+              //Serial.println("changing to 4");
+            }
+            break;
+        case '4':
+            if(getPace() <= gear4 && getPace() > gear3){
+              setGear('5');
+              //Serial.println("changing to 5");
+            }
+            break;
+        case '5':
+            if(getPace() > gear4 && getPace() <= gear5){
+              //setGear('5');
+            }
+            break;
+      }// End MANUAL TRANSMISSION 
     break;
     case 's':
     break;
@@ -258,15 +274,13 @@ void Engine::changeGear(){
             }
             break;
         case '5':
-            
+            if(getPace() > gear4 && getPace() <= gear5){
+              getGear();
+            }
         break;
       }// End MANUAL TRANSMISSION
     break;
   }
-}
-
-void Engine::upShift(){
- 
 }
 
 void Engine::downShift(){
