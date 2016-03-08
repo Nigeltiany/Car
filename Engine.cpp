@@ -104,6 +104,8 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
             pwm.setPin(getPinR(),pace);
             setPace(pace+1);
             Serial.println(getPace());
+            //Serial.println(getGear());
+            //Serial.println(checkGear());
             changeGear();
         }while(pace<getMaxSpeed());
         
@@ -118,6 +120,8 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
             pwm.setPin(getPinR(),pace);
             setPace(pace+1);
             Serial.println(getPace());
+            //Serial.println(getGear());
+            //Serial.println(checkGear());
         }while(pace<getMaxSpeed());
         changeGear();
         if(getTransmission() != 'a'){
@@ -131,6 +135,8 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
             pwm.setPin(getPinR(),pace);
             setPace(pace+1);
             Serial.println(getPace());
+            //Serial.println(getGear());
+            //Serial.println(checkGear());
         }while(pace<getMaxSpeed());
         changeGear();
         if(getTransmission() != 'a'){
@@ -144,6 +150,8 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
             pwm.setPin(getPinR(),pace);
             setPace(pace+1);
             Serial.println(getPace());
+            //Serial.println(getGear());
+            //Serial.println(checkGear());
         }while(pace<getMaxSpeed());
         changeGear();
         if(getTransmission() != 'a'){
@@ -157,6 +165,8 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
             pwm.setPin(getPinR(),pace);
             setPace(pace+1);
             Serial.println(getPace());
+            //Serial.println(getGear());
+            //Serial.println(checkGear());
         }while(pace<getMaxSpeed());
         changeGear();
 
@@ -203,7 +213,6 @@ char Engine::checkGear(){
 }
 
 void Engine::changeGear(){
-  //checkGear();
   switch(getTransmission()){
     case 'a':
         if(getMaxSpeed() == gear1){
@@ -226,56 +235,64 @@ void Engine::changeGear(){
     ///////////////////////////////////////////////////////////////////////////////////////
     
     case 'm':
-      setGear('n');
       switch(getGear()){
         // For any of these gears...
         case '1':
-        case '2':
-        case '3':
-        case '4':
-        case '5':
-            Serial.print("getGear() ");
-            Serial.println(getGear());
-            Serial.print("checkGear() ");
-            Serial.println(checkGear());
-          //if (getGear() != checkGear()){ // meaning possibly the user switched gears but...
-            // its is not the gear the transmission is in right now
-            // Now all the logic for automatic gear shifting with a tiny twist
-            
-            //////////////////////////////////////////////////////////
-            /////////////////       UP SHIFTING     //////////////////
-            //////////////////////////////////////////////////////////
-            
             if(getPace() <= gear1 && getPace() > getStopSpeed()){
-              setGear('2'); // set gear to next level;
-              // then throttle at this gear
-              throttle(pwm);
-            }else if(getPace() <= gear2 && getPace() > gear1){
-              setGear('3');
-              // then throttle at this gear
-              throttle(pwm);
+              getGear();
             }
-            else if(getPace() <= gear3 && getPace() > gear2){
-              setGear('4');
-              // then throttle at this gear
-              throttle(pwm);
+            break;
+        case '2':
+            if(getPace() <= gear2 && getPace() > gear1){
+              getGear();
             }
-            else if(getPace() <= gear4 && getPace() > gear3){
-              setGear('5');
-              // then throttle at this gear
-              throttle(pwm);
+            break;
+        case '3':
+            if(getPace() <= gear3 && getPace() > gear2){
+              getGear();
             }
-
-            //////////////////////////////////////////////////////////
-            ////////////////       DOWN SHIFTING     /////////////////
-            //////////////////////////////////////////////////////////
-
+            break;
+        case '4':
+            if(getPace() <= gear4 && getPace() > gear3){
+              getGear();
+            }
+            break;
+        case '5':
             
-            
-          //}
         break;
       }// End MANUAL TRANSMISSION
     break;
+  }
+}
+
+void Engine::upShift(){
+ 
+}
+
+void Engine::downShift(){
+  Serial.println((int)getGear()-48);
+  Serial.println((int)checkGear()-48);
+  if (((int)getGear()-48) - ((int)checkGear()-48) > 0){
+    Serial.println("DOWN SHIFTING");
+    if(getPace() > gear1 && getPace() <= gear2){
+      setGear('1'); // set gear to next level;
+      // then throttle at this gear
+      throttle(pwm);
+    }else if(getPace() > gear2 && getPace() <= gear3){
+      setGear('2');
+      // then throttle at this gear
+      throttle(pwm);
+    }
+    else if(getPace() > gear3 && getPace() <= gear4){
+      setGear('3');
+      // then throttle at this gear
+      throttle(pwm);
+    }
+    else if(getPace() > gear4 && getPace() <= gear5){
+      setGear('4');
+      // then throttle at this gear
+      throttle(pwm);
+    }
   }
 }
 

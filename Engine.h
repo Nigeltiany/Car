@@ -38,6 +38,8 @@ class Engine{
     char gear;
     char transmission;
 
+    void upShift();
+    void downShift();
     void setTransmission(char t);
     char getTransmission();
     void changeGear();
