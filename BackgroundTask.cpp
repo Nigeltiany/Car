@@ -5,7 +5,7 @@
 
 
 BackgroundTask::BackgroundTask(){ 
-  refresh = 10;
+  refresh = 2;
   previousMillis = 0;
 }
 
@@ -21,12 +21,15 @@ void BackgroundTask::Update(){
     char temp = Serial.read();
     brakeCommand = temp;
   }
-  
+
   if ((brakeCommand == 's') && (currentMillis - previousMillis >= refresh)){
     brake = 1; //true
     _engine.setInterrupt(&brake);
     previousMillis = currentMillis;
-    //Serial.print(brake);
+  }else if ((brakeCommand == 'w') && (currentMillis - previousMillis >= refresh)){
+    brake = 0;
+    _engine.setInterrupt(&brake);
+    previousMillis = currentMillis;
   }
 }
 

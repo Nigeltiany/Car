@@ -83,8 +83,8 @@ void Engine::halt(Adafruit_PWMServoDriver pwm){
   pwm.setPin(getPinL(),getStopSpeed());
   pwm.setPin(getPinR(),getStopSpeed());
   setPace(getMinSpeed());
-  Serial.print("Stopped ");
-  Serial.println(getPace());
+  //Serial.print("Stopped ");
+  //Serial.println(getPace());
 }
 
 void Engine::setTransmission(char s){
@@ -105,7 +105,6 @@ bool Engine::getInterrupt(){
 }
 
 void Engine::throttle(Adafruit_PWMServoDriver pwm){
-  
   switch(getGear()){
     case '1':
         setMaxSpeed(gear1);
@@ -117,8 +116,7 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
             //Serial.println(getGear());
             //Serial.println(checkGear());
             //Serial.print(getGear());
-            if (interrupt){ break;}
-            getInterrupt();
+            if (interrupt) break; halt(pwm);
             changeGear();
         }while(pace<getMaxSpeed());
         if(getTransmission() != 'a'){
@@ -134,8 +132,7 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
             //Serial.println(getGear());
             //Serial.println(checkGear());
             //Serial.print(getGear());
-            if (interrupt){ break;}
-            getInterrupt();
+            if (interrupt) break; halt(pwm);
             changeGear();
         }while(pace<getMaxSpeed());
         if(getTransmission() != 'a'){
@@ -150,8 +147,7 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
             Serial.println(getPace());
             //Serial.println(getGear());
             //Serial.println(checkGear());
-            if (interrupt){ break;}
-            getInterrupt();
+            if (interrupt) break; halt(pwm);
             changeGear();
         }while(pace<getMaxSpeed());
         if(getTransmission() != 'a'){
@@ -166,8 +162,7 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
             Serial.println(getPace());
             //Serial.println(getGear());
             //Serial.println(checkGear());
-            if (interrupt){ break;}
-            getInterrupt();
+            if (interrupt) break; halt(pwm);
             changeGear();
         }while(pace<getMaxSpeed());
         if(getTransmission() != 'a'){
@@ -182,8 +177,7 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
             Serial.println(getPace());
             //Serial.println(getGear());
             //Serial.println(checkGear());
-            if (interrupt){ break;}
-            getInterrupt();
+            if (interrupt) break; halt(pwm);
             changeGear();
         }while(pace<getMaxSpeed());
 

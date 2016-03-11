@@ -27,7 +27,7 @@ void setup() {
   car.initEngine(2,3);
   radar.setServo(1);
   radar.setPace(30);
-  long interval = 10;
+  long interval = 0;
   async = BackgroundTask(interval);
 }
 
