@@ -4,19 +4,21 @@
 #include "Engine.h"
 #include "Servoi2c.h"
 #include "BackgroundTask.h"
+#include <VSync.h>
 
 char steer_command;
 char move_command;
 char gear_command;
 
 //Trig and Echo pins of the Ultrasonic Sensor
-
 const int trigPin = 7;
 const int echoPin = 6;
 
 Car car;
 Servoi2c radar;
 BackgroundTask async;
+ValueSender<2> radarData;
+int angle,objectDistance;
 
 void setup() {
   pinMode(trigPin, OUTPUT);
@@ -29,16 +31,18 @@ void setup() {
   radar.setPace(30);
   long interval = 0;
   async = BackgroundTask(interval);
+
+  radarData.observe(angle);
+  radarData.observe(objectDistance);
 }
 
 void loop() {
   async.Update();
+  
   radar.rotate(0,180);
-
-  //Serial.print(radar.getAngle());
-  //Serial.print(',');
-  //Serial.print(calculateDistance());
-  //Serial.print('.');
+  angle = radar.getAngle();
+  objectDistance = calculateDistance();
+  radarData.sync();
   
   if(Serial.available()){
     char temp = Serial.read();
@@ -108,17 +112,16 @@ void loop() {
     }
 }
 
-// Function for calculating the distance measured by the Ultrasonic sensor
+// Function for calculating the distance
 int calculateDistance(){ 
   long duration;
-  int objectDistance;
   digitalWrite(trigPin, LOW); 
   delayMicroseconds(2);
-  // Sets the trigPin on HIGH state for 10 micro seconds
+  // Set trigPin on HIGH state for 10 micro seconds
   digitalWrite(trigPin, HIGH); 
   delayMicroseconds(10);
   digitalWrite(trigPin, LOW);
-  duration = pulseIn(echoPin, HIGH); // Reads the echoPin, returns the sound wave travel time in microseconds
+  duration = pulseIn(echoPin, HIGH); // Read sound wave travel time in microseconds
   objectDistance = duration*0.034/2;
   return objectDistance;
 }
