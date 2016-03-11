@@ -15,6 +15,7 @@
 #include <Adafruit_PWMServoDriver.h>
 #include "Engine.h"
 #include "Servoi2c.h"
+#include "BackgroundTask.h"
 
 class Car{
   public:
@@ -60,7 +61,6 @@ class Car{
 /////////             CAR ENGINE VARIABLES            ///////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-    Engine _engine;
     bool electricDiff; 
     
     void initEngine(int pinL,int pinR);

@@ -11,15 +11,17 @@
  
 
 class BackgroundTask{
-  BackgroundTask(boolean &interrupt,long checkRate);
-  bool brake;
-  long refresh;
-  char brakeCommand;
- 
-  bool breakRequest;
-  unsigned long previousMillis;
-
-  void Update();
+  public:
+    BackgroundTask();
+    BackgroundTask(long checkRate);
+    bool brake;
+    long refresh;
+    char brakeCommand;
+   
+    bool breakRequest;
+    unsigned long previousMillis;
+  
+    void Update();
 };
 
 #endif

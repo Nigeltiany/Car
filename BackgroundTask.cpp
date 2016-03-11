@@ -3,10 +3,15 @@
 #include "BackgroundTask.h"
 #include "Global.h"
 
-BackgroundTask::BackgroundTask(boolean &interrupt,long checkRate){ 
+
+BackgroundTask::BackgroundTask(){ 
+  refresh = 10;
+  previousMillis = 0;
+}
+
+BackgroundTask::BackgroundTask(long checkRate){ 
   refresh = checkRate;
   previousMillis = 0;
-  brake = &interrupt;
 }
 
 void BackgroundTask::Update(){
@@ -15,11 +20,12 @@ void BackgroundTask::Update(){
   if(Serial.available()){
     char temp = Serial.read();
     brakeCommand = temp;
+    Serial.print(brakeCommand);
   }
   
   if ((brakeCommand == 's') && (currentMillis - previousMillis >= refresh)){
     brake = 1; //true
-    setInterrupt(&brake);
+    _engine.setInterrupt(&brake);
     previousMillis = currentMillis;
   }
 }

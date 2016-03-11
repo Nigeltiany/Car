@@ -26,6 +26,7 @@ Engine::Engine(int pinL,int pinR){
   setPace(getMinSpeed());
   setTransmission('a');
   //changeGear();
+  long interval = 100;
 }
 void Engine::setPinL(int pinL){
   _pinL = pinL;
@@ -94,8 +95,8 @@ char Engine::getTransmission(){
   return transmission;
 }
 
-void Engine::setInterrupt(bool &v){
-  interrupt = &v;
+void Engine::setInterrupt(bool *v){
+  interrupt = v;
 }
 
 bool Engine::getInterrupt(){
