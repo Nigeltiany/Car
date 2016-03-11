@@ -14,7 +14,7 @@
 
 Adafruit_PWMServoDriver pwm;
 Engine _engine;
-BackgroundTask async;
+//BackgroundTask async;
 
 Car::Car(){
 }
@@ -31,9 +31,6 @@ void Car::create(){
   setServoMaxPulse(533);
   setCornerSpeed(0.1);
   setGear('p');
-  long interval = 10;
-  async = BackgroundTask(interval);
-  async.Update();
   Serial.println("INSTANTIATED");
   //turnRight();
 }

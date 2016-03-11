@@ -3,6 +3,7 @@
 #include "Car.h"
 #include "Engine.h"
 #include "Servoi2c.h"
+#include "BackgroundTask.h"
 
 char steer_command;
 char move_command;
@@ -15,6 +16,8 @@ const int echoPin = 6;
 
 Car car;
 Servoi2c radar;
+BackgroundTask async;
+
 void setup() {
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
@@ -24,9 +27,12 @@ void setup() {
   car.initEngine(2,3);
   radar.setServo(1);
   radar.setPace(30);
+  long interval = 10;
+  async = BackgroundTask(interval);
 }
 
 void loop() {
+  async.Update();
   radar.rotate(0,180);
 
   //Serial.print(radar.getAngle());

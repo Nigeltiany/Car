@@ -20,13 +20,13 @@ void BackgroundTask::Update(){
   if(Serial.available()){
     char temp = Serial.read();
     brakeCommand = temp;
-    Serial.print(brakeCommand);
   }
   
   if ((brakeCommand == 's') && (currentMillis - previousMillis >= refresh)){
     brake = 1; //true
     _engine.setInterrupt(&brake);
     previousMillis = currentMillis;
+    //Serial.print(brake);
   }
 }
 
