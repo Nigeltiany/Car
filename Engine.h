@@ -13,7 +13,7 @@
 #endif
 
 #include "Car.h"
-#include "Car.h"
+#include "BackgroundTask.h"
 
 #include <Adafruit_PWMServoDriver.h>
 
@@ -37,7 +37,12 @@ class Engine{
     int pace;
     char gear;
     char transmission;
+    bool interrupt;
 
+    BackgroundTask doInBackground;
+
+    bool getInterrupt();
+    void setInterrupt(boolean &v);
     void upShift();
     void downShift();
     void setTransmission(char t);

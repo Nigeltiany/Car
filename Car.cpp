@@ -29,7 +29,7 @@ void Car::create(){
   setCornerSpeed(0.1);
   setGear('p');
   Serial.println("INSTANTIATED");
-  turnRight();
+  //turnRight();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,7 +68,7 @@ void Car::forwardSteer(){
       corneringMillis = currentMillis; 
       int pulselength = map(angle+=1, 0, 180, SERVOMIN, SERVOMAX);
       pwm.setPWM(corneringServoIndex, 0, pulselength);
-      //set gloable corner angle
+      //set global corner angle
       setCornerAngle(angle+1);
     }
   }else if(angle > cornerCenter){
@@ -76,14 +76,14 @@ void Car::forwardSteer(){
       corneringMillis = currentMillis; 
       int pulselength = map(angle-=1, 0, 180, SERVOMIN, SERVOMAX);
       pwm.setPWM(corneringServoIndex, 0, pulselength);
-      //set gloable corner angle
+      //set global corner angle
       setCornerAngle(angle-1);
     }
   }else{
     int pulselength = map(cornerCenter, 0, 180, SERVOMIN, SERVOMAX);
     corneringMillis = currentMillis; 
     pwm.setPWM(corneringServoIndex, 0, pulselength);
-    //set gloable corner angle
+    //set global corner angle
     setCornerAngle(cornerCenter);
   }
 }
@@ -115,7 +115,7 @@ void Car::turnLeft(){
         corneringMillis = currentMillis; 
         int pulselength = map(angle+=1, 0, 180, SERVOMIN, SERVOMAX);
         pwm.setPWM(corneringServoIndex, 0, pulselength);
-        //set gloable corner angle
+        //set global corner angle
         setCornerAngle(angle+=1);
       }
     }else if(angle > cornerCenter-largestCornerAngle){
@@ -123,14 +123,14 @@ void Car::turnLeft(){
         corneringMillis = currentMillis; 
         int pulselength = map(angle-=1, 0, 180, SERVOMIN, SERVOMAX);
         pwm.setPWM(corneringServoIndex, 0, pulselength);
-        //set gloable corner angle
+        //set global corner angle
         setCornerAngle(angle-=1);
       }
     }else{
       int pulselength = map(cornerCenter-largestCornerAngle, 0, 180, SERVOMIN, SERVOMAX);
       corneringMillis = currentMillis; 
       pwm.setPWM(corneringServoIndex, 0, pulselength);
-      //set gloable corner angle
+      //set global corner angle
       setCornerAngle(cornerCenter-largestCornerAngle);
     }
   }

@@ -75,7 +75,6 @@ class Car{
             
     void accelerate();
     void deccelerate();
-    //Adafruit_PWMServoDriver pwm;
 
                     /////////////////////////////////////
 

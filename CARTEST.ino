@@ -8,19 +8,32 @@ char steer_command;
 char move_command;
 char gear_command;
 
+//Trig and Echo pins of the Ultrasonic Sensor
+
+const int trigPin = 7;
+const int echoPin = 6;
+
 Car car;
+Servoi2c radar;
 void setup() {
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
   // put your setup code here, to run once:
   Serial.begin(9600);
   car.create();
   car.initEngine(2,3);
+  radar.setServo(1);
+  radar.setPace(30);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  //car.setGear('d');
-  //char gear = car.getGear();
-  //Serial.println(gear);
+  radar.rotate(0,180);
+
+  //Serial.print(radar.getAngle());
+  //Serial.print(',');
+  //Serial.print(calculateDistance());
+  //Serial.print('.');
+  
   if(Serial.available()){
     char temp = Serial.read();
     steer_command = temp;
@@ -87,6 +100,19 @@ void loop() {
         car.setGear('5');
         break;
     }
-  //Serial.print("car.corneringMillis ");
-  //Serial.println(car.corneringMillis);
+}
+
+// Function for calculating the distance measured by the Ultrasonic sensor
+int calculateDistance(){ 
+  long duration;
+  int objectDistance;
+  digitalWrite(trigPin, LOW); 
+  delayMicroseconds(2);
+  // Sets the trigPin on HIGH state for 10 micro seconds
+  digitalWrite(trigPin, HIGH); 
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH); // Reads the echoPin, returns the sound wave travel time in microseconds
+  objectDistance = duration*0.034/2;
+  return objectDistance;
 }

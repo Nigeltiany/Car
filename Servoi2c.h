@@ -11,6 +11,10 @@
 #else
  #include "WProgram.h"
 #endif
+
+#include "Car.h"
+
+#include <Adafruit_PWMServoDriver.h>
  
 class Servoi2c{
    public:
@@ -19,6 +23,25 @@ class Servoi2c{
      void setServo(int index);
      int getIndex();
      int index;
+     int SERVOMAX = 533;
+     int SERVOMIN = 133;
+     void setServoMax(int m);
+     void setServoMin(int m);
+     void rotate(int angle1,int angle2);
+     unsigned long previousMillis = 0;
+     int interval = 10;
+     int _angle;
+
+     void setPace(int pace);
+     int startAngle;
+     int endAngle;
+     int getStartAngle();
+     int getEndAngle();
+     int getAngle();
+
+   private:
+     void setStartAngle(int i);
+     void setEndAngle(int i);
 };
 
 #endif
