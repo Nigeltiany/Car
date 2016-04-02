@@ -84,7 +84,7 @@ void Engine::halt(Adafruit_PWMServoDriver pwm){
   pwm.setPin(getPinR(),getStopSpeed());
   setPace(getMinSpeed());
   //Serial.print("Stopped ");
-  //Serial.println(getPace());
+  Serial.println(getPace());
 }
 
 void Engine::setTransmission(char s){
@@ -104,10 +104,14 @@ bool Engine::getInterrupt(){
   return Serial.print(v);
 }
 
+void Engine::setGearSpeed(int s){
+  gearSpeed = s;
+}
+
 void Engine::throttle(Adafruit_PWMServoDriver pwm){
   switch(getGear()){
     case '1':
-        setMaxSpeed(gear1);
+        setGearSpeed(gear1);
         do{
             pwm.setPin(getPinL(),pace);
             pwm.setPin(getPinR(),pace);
@@ -118,12 +122,12 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
             //Serial.print(getGear());
             if (interrupt) break; halt(pwm);
             changeGear();
-        }while(pace<getMaxSpeed());
+        }while(pace<gear1);
         if(getTransmission() != 'a'){
           break; // else woun't break out of the loop so that gears can change in auto
         }
     case '2':
-        setMaxSpeed(gear2);
+        setGearSpeed(gear2);
         do{
             pwm.setPin(getPinL(),pace);
             pwm.setPin(getPinR(),pace);
@@ -134,12 +138,12 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
             //Serial.print(getGear());
             if (interrupt) break; halt(pwm);
             changeGear();
-        }while(pace<getMaxSpeed());
+        }while(pace<gear2);
         if(getTransmission() != 'a'){
           break; // else woun't break out of the loop so that gears can change in auto
         }
     case '3':
-        setMaxSpeed(gear3);
+        setGearSpeed(gear3);
         do{
             pwm.setPin(getPinL(),pace);
             pwm.setPin(getPinR(),pace);
@@ -149,12 +153,12 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
             //Serial.println(checkGear());
             if (interrupt) break; halt(pwm);
             changeGear();
-        }while(pace<getMaxSpeed());
+        }while(pace<gear3);
         if(getTransmission() != 'a'){
           break; // else woun't break out of the loop so that gears can change in auto
         }
     case '4':
-        setMaxSpeed(gear4);
+        setGearSpeed(gear4);
         do{
             pwm.setPin(getPinL(),pace);
             pwm.setPin(getPinR(),pace);
@@ -164,12 +168,12 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
             //Serial.println(checkGear());
             if (interrupt) break; halt(pwm);
             changeGear();
-        }while(pace<getMaxSpeed());
+        }while(pace<gear4);
         if(getTransmission() != 'a'){
           break; // else woun't break out of the loop so that gears can change in auto
         }
     case '5':
-        setMaxSpeed(gear5);
+        setGearSpeed(gear5);
         do{
             pwm.setPin(getPinL(),pace);
             pwm.setPin(getPinR(),pace);
@@ -179,14 +183,14 @@ void Engine::throttle(Adafruit_PWMServoDriver pwm){
             //Serial.println(checkGear());
             if (interrupt) break; halt(pwm);
             changeGear();
-        }while(pace<getMaxSpeed());
+        }while(pace<gear5);
 
     ////////////////////////////////////////////////////////////////////////////////
       break;
     ////////////////////////////////////////////////////////////////////////////////
     
       case 'p':
-        setMaxSpeed(parking);
+        setGearSpeed(parking);
         setPace(parking);
         pwm.setPin(getPinL(),parking);
         pwm.setPin(getPinR(),parking);
@@ -221,6 +225,32 @@ char Engine::checkGear(){
         Serial.print("Neutral");
         break;
    }
+}
+
+int Engine::getTransmissionSpeed(){
+  switch(checkGear()){
+    case 'p':
+      return parking;
+      break;
+    case '1':
+      return gear1;
+      break;
+    case '2':
+      return gear2;
+      break;
+    case '3':
+      return gear3;
+      break;
+    case '4':
+      return gear4;
+      break;
+    case '5':
+      return gear5;
+      break;
+    default:
+      return -1;
+      break;  
+    }
 }
 
 void Engine::changeGear(){
@@ -327,9 +357,13 @@ void Engine::downShift(){
 }
 
 void Engine::channelize(Adafruit_PWMServoDriver pwm){
-  setPace(pace-819);
-  pwm.setPin(getPinL(),pace);
-  pwm.setPin(getPinR(),pace);
+  do{
+      pwm.setPin(getPinL(),pace);
+      pwm.setPin(getPinR(),pace);
+      setPace(pace-1);
+      if (interrupt) break; halt(pwm);
+      changeGear();
+  }while(pace>getMinSpeed());
   Serial.println(getPace());
 }
 

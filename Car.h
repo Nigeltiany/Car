@@ -75,6 +75,10 @@ class Car{
             
     void accelerate();
     void deccelerate();
+    int getSpeed();
+    int getMinSpeed();
+    int getMaxSpeed();
+    int getGearSpeed();
 
                     /////////////////////////////////////
 

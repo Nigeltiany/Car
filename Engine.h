@@ -37,6 +37,7 @@ class Engine{
     char gear;
     char transmission;
     bool interrupt;
+    int gearSpeed;
 
     bool getInterrupt();
     void setInterrupt(boolean *v);
@@ -44,6 +45,8 @@ class Engine{
     void downShift();
     void setTransmission(char t);
     char getTransmission();
+    void setGearSpeed(int s);
+    int getTransmissionSpeed();
     void changeGear();
     char checkGear();
     void setGear(char g);

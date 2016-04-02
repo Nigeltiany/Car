@@ -25,7 +25,7 @@ void Car::create(){
   pwm.setPWMFreq(50);
   setLargestCornerAngle(13);
   setCornerServo(0);
-  setCornerCenter(73);
+  setCornerCenter(69);
   setCornerAngle(cornerCenter);
   setServoMinPulse(133);
   setServoMaxPulse(533);
@@ -210,7 +210,17 @@ void Car::accelerate(){
 void Car::deccelerate(){
   _engine.channelize(pwm);
 }
+int Car::getSpeed(){
+ return _engine.getPace();
+}
 
+int Car::getMinSpeed(){
+  return _engine.getMinSpeed();
+}
+
+int Car::getMaxSpeed(){
+  return _engine.getMaxSpeed();
+}
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -226,13 +236,16 @@ void Car::setGear(char v){
 }
 
 char Car::getGear(){
-  return gear;
+  return _engine.getGear();
 }
 
 void Car::setTransmission(char t){
   _engine.setTransmission(t);
 }
 
+int Car::getGearSpeed(){
+  _engine.getTransmissionSpeed();
+}
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 
