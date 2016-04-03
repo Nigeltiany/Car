@@ -132,7 +132,7 @@ void prepareMap(int Width,int Height,float lat,float lng){
   latitude = String.valueOf(lat);
   longitude = String.valueOf(lng);
   String marker = "&markers=color:red%7Clabel:C%7C"+latitude+","+longitude;
-  String API_KEY = "&key=AIzaSyBT-5E6CrfrFKFqwv5QoYVvvZEMOo9gk9I";
+  String API_KEY = "&key=AIza...";
   
   if(showTravelPath == false){
     map = loadImage(urlStart+format+size+type+marker+API_KEY,"png");
