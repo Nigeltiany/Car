@@ -158,11 +158,11 @@ void drawMap(float x,float y,float Width,float Height){
   //MAP AND GPS
   long runTime = millis();
   //if(runOnce == true){
-  //  //prepareMap(int(Width),int(Height),35.800331,-78.61038200000002);
+  //  //prepareMap(int(Width),int(Height),45.808331,-79.61033400000002);
   //  //runOnce = true;
   //}
   if(runTime - previousUpdate >= interval){
-    prepareMap(int(Width),int(Height),35.800331+mouseY/100000.0,-78.61038200000002+mouseX/100000.0);
+    prepareMap(int(Width),int(Height),45.808331+mouseY/100000.0,79.61033400000002+mouseX/100000.0);
     previousUpdate = runTime;
     //println(previousUpdate/1000);
     travelledPath.add(latitude+","+longitude+"|");
